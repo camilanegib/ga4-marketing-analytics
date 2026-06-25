@@ -1,0 +1,12 @@
+CREATE TABLE `coherent-vision-500222-m3.portafolio.productos_vistos_vs_comprados` AS
+SELECT
+  event_name,
+  item.item_name AS producto,
+  COUNT(*) AS cantidad
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
+  UNNEST(items) AS item
+WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
+  AND event_name IN ('view_item', 'purchase')
+GROUP BY event_name, producto
+ORDER BY event_name, cantidad DESC
+LIMIT 20
