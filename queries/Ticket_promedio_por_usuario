@@ -1,0 +1,11 @@
+CREATE TABLE `coherent-vision-500222-m3.portafolio.ticket_promedio_usuario` AS
+SELECT
+  user_pseudo_id AS usuario,
+  AVG(ep.value.double_value) AS ticket_promedio
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
+  UNNEST(event_params) AS ep
+WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
+  AND event_name = 'purchase'
+  AND ep.key = 'value'
+GROUP BY usuario
+ORDER BY ticket_promedio DESC
