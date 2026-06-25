@@ -1,0 +1,9 @@
+CREATE TABLE `coherent-vision-500222-m3.portafolio.funnel_conversion` AS
+SELECT
+  event_name,
+  COUNT(DISTINCT user_pseudo_id) AS usuarios
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`
+WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
+  AND event_name IN ('session_start', 'purchase')
+GROUP BY event_name
+ORDER BY usuarios DESC
