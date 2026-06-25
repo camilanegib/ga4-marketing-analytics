@@ -1,0 +1,11 @@
+CREATE TABLE `coherent-vision-500222-m3.portafolio.paginas_mas_visitadas` AS
+SELECT
+  ep.value.string_value AS pagina,
+  COUNT(*) AS visitas
+FROM `bigquery-public-data.ga4_obfuscated_sample_ecommerce.events_*`,
+  UNNEST(event_params) AS ep
+WHERE _TABLE_SUFFIX BETWEEN '20201101' AND '20210131'
+  AND ep.key = 'page_title'
+GROUP BY pagina
+ORDER BY visitas DESC
+LIMIT 10
